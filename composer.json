@@ -1,0 +1,22 @@
+{
+    "name": "altmetric/mongo-session-handler",
+    "description": "A PHP session handler backed by MongoDB.",
+    "homepage": "https://github.com/altmetric/mongo-session-handler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paul Mucur",
+            "homepage": "http://mudge.name"
+        }
+    ],
+    "require": {
+        "php": ">= 5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.5.*",
+        "psr/log": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": { "Altmetric\\": "src/" }
+    }
+}
