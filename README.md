@@ -1,4 +1,4 @@
-# Mongo Session Handler
+# Mongo Session Handler [![Build Status](https://travis-ci.org/altmetric/mongo-session-handler.svg?branch=master)](https://travis-ci.org/altmetric/mongo-session-handler)
 
 A **work-in-progress** PHP session handler backed by MongoDB.
 
