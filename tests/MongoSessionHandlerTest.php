@@ -28,7 +28,7 @@ class MongoSessionHandlerTest extends \PHPUnit_Framework_TestCase
                                  'data' => new \MongoBinData('foo', \MongoBinData::BYTE_ARRAY)]);
         $handler = $this->buildHandler($collection);
 
-        $this->assertEquals('foo', $handler->read('123'));
+        $this->assertSame('foo', $handler->read('123'));
     }
 
     public function testReadMissingSessionReturnsAnEmptyString()
@@ -37,7 +37,7 @@ class MongoSessionHandlerTest extends \PHPUnit_Framework_TestCase
         $collection->method('findOne')->willReturn(null);
         $handler = $this->buildHandler($collection);
 
-        $this->assertEquals('', $handler->read('123'));
+        $this->assertSame('', $handler->read('123'));
     }
 
     public function testWriteSuccessfullyReturnsTrue()
