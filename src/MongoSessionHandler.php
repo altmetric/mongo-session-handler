@@ -1,12 +1,18 @@
 <?php
 namespace Altmetric;
 
+use MongoDB\Collection;
+use MongoDB\BSON\Binary;
+use MongoDB\BSON\UTCDateTime;
+use MongoDB\Driver\Exception\Exception as MongoDBException;
+use Psr\Log\LoggerInterface;
+
 class MongoSessionHandler implements \SessionHandlerInterface
 {
     private $collection;
     private $logger;
 
-    public function __construct(\MongoCollection $collection, \Psr\Log\LoggerInterface $logger)
+    public function __construct(Collection $collection, LoggerInterface $logger)
     {
         $this->collection = $collection;
         $this->logger = $logger;
@@ -26,12 +32,12 @@ class MongoSessionHandler implements \SessionHandlerInterface
     {
         $this->logger->debug("Reading session {$id}");
 
-        $session = $this->collection->findOne(['_id' => $id], ['data' => 1]);
+        $session = $this->collection->findOne(['_id' => $id], ['projection' => ['data' => 1]]);
 
         if ($session) {
             $this->logger->debug("Session {$id} found, returning data");
 
-            return $session['data']->bin;
+            return $session['data']->getData();
         } else {
             $this->logger->debug("No session {$id} found, returning no data");
 
@@ -43,16 +49,16 @@ class MongoSessionHandler implements \SessionHandlerInterface
     {
         $session = [
             '_id' => $id,
-            'data' => new \MongoBinData($data, \MongoBinData::BYTE_ARRAY),
-            'last_accessed' => new \MongoDate()
+            'data' => new Binary($data, Binary::TYPE_OLD_BINARY),
+            'last_accessed' => new UTCDateTime(floor(microtime(true) * 1000))
         ];
 
         try {
             $this->logger->debug("Saving data {$data} to session {$id}");
-            $this->collection->save($session);
+            $this->collection->replaceOne(['_id' => $id], $session, ['upsert' => true]);
 
             return true;
-        } catch (\MongoException $e) {
+        } catch (MongoDBException $e) {
             $this->logger->error("Error when saving {$data} to session {$id}: {$e->getMessage()}");
 
             return false;
@@ -64,10 +70,10 @@ class MongoSessionHandler implements \SessionHandlerInterface
         $this->logger->debug("Destroying session {$id}");
 
         try {
-            $this->collection->remove(['_id' => $id]);
+            $this->collection->deleteOne(['_id' => $id]);
 
             return true;
-        } catch (\MongoException $e) {
+        } catch (MongoDBException $e) {
             $this->logger->error("Error removing session {$id}: {$e->getMessage()}");
 
             return false;
@@ -76,14 +82,14 @@ class MongoSessionHandler implements \SessionHandlerInterface
 
     public function gc($maxlifetime)
     {
-        $lastAccessed = new \MongoDate(time() - $maxlifetime);
+        $lastAccessed = new UTCDateTime(floor((microtime(true) - $maxlifetime) * 1000));
 
         try {
             $this->logger->debug("Removing any sessions older than {$lastAccessed}");
-            $this->collection->remove(['last_accessed' => ['$lt' => $lastAccessed]]);
+            $this->collection->deleteMany(['last_accessed' => ['$lt' => $lastAccessed]]);
 
             return true;
-        } catch (\MongoException $e) {
+        } catch (MongoDBException $e) {
             $this->logger->error("Error removing sessions older than {$lastAccessed}: {$e->getMessage()}");
 
             return false;

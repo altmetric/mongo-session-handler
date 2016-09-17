@@ -10,11 +10,13 @@
         }
     ],
     "require": {
-        "php": ">= 5.4.0"
+        "php": ">= 5.4.0",
+        "ext-mongodb": "*",
+        "psr/log": "^1.0",
+        "mongodb/mongodb": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*",
-        "psr/log": "1.0.0"
+        "phpunit/phpunit": "^4.8"
     },
     "autoload": {
         "psr-4": { "Altmetric\\": "src/" }

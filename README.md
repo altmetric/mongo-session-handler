@@ -2,6 +2,9 @@
 
 A PHP session handler backed by MongoDB.
 
+**Current version:** 1.0.0  
+**Supported PHP versions:** 5.4, 5.5, 5.6, 7
+
 ## Installation
 
 ```shell
@@ -57,6 +60,6 @@ session as it is not locked during reads and writes:
 
 ## License
 
-Copyright © 2015 Altmetric LLP
+Copyright © 2015-2016 Altmetric LLP
 
 Distributed under the MIT License.
