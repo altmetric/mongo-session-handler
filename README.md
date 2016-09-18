@@ -28,6 +28,23 @@ session_name('my_session_name');
 session_start();
 ```
 
+## API Documentation
+
+### `public MongoSessionHandler::__construct(MongoDB\Collection $collection, Psr\Log\LoggerInterface $logger)`
+
+```php
+$handler = new \Altmetric\MongoSessionHandler($client->db->sessions, $logger);
+session_set_save_handler($handler, true);
+session_start();
+```
+
+Instantiate a new MongoDB session handler with the following arguments:
+
+* `$collection`: a [`MongoDB\Collection`](http://mongodb.github.io/mongo-php-library/classes/collection/) collection to use for session storage;
+* `$logger`: [`Psr\Log\LoggerInterface`](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)-compliant logger.
+
+This handler implements the [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) meaning that it can be registered as a session handler with [`session_set_save_handler`](http://php.net/manual/en/function.session-set-save-handler.php).
+
 ## Concurrency
 
 As MongoDB prior to 3.0 does not support [document level
