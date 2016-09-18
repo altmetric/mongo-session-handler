@@ -2,7 +2,7 @@
 
 A PHP session handler backed by MongoDB.
 
-**Current version:** 1.0.0  
+**Current version:** 2.0.0  
 **Supported PHP versions:** 5.4, 5.5, 5.6, 7
 
 ## Installation
