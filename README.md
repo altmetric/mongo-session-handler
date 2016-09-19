@@ -2,6 +2,9 @@
 
 A PHP session handler backed by MongoDB.
 
+**Current version:** 2.0.0  
+**Supported PHP versions:** 5.4, 5.5, 5.6, 7
+
 ## Installation
 
 ```shell
@@ -24,6 +27,23 @@ session_set_cookie_params(0, '/', '.example.com', false, true);
 session_name('my_session_name');
 session_start();
 ```
+
+## API Documentation
+
+### `public MongoSessionHandler::__construct(MongoDB\Collection $collection, Psr\Log\LoggerInterface $logger)`
+
+```php
+$handler = new \Altmetric\MongoSessionHandler($client->db->sessions, $logger);
+session_set_save_handler($handler, true);
+session_start();
+```
+
+Instantiate a new MongoDB session handler with the following arguments:
+
+* `$collection`: a [`MongoDB\Collection`](http://mongodb.github.io/mongo-php-library/classes/collection/) collection to use for session storage;
+* `$logger`: [`Psr\Log\LoggerInterface`](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)-compliant logger.
+
+This handler implements the [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) meaning that it can be registered as a session handler with [`session_set_save_handler`](http://php.net/manual/en/function.session-set-save-handler.php).
 
 ## Concurrency
 
@@ -57,6 +77,6 @@ session as it is not locked during reads and writes:
 
 ## License
 
-Copyright © 2015 Altmetric LLP
+Copyright © 2015-2016 Altmetric LLP
 
 Distributed under the MIT License.
