@@ -7,8 +7,16 @@ A PHP session handler backed by MongoDB.
 
 ## Installation
 
+### New driver
+
 ```shell
 $ composer require altmetric/mongo-session-handler
+```
+
+### Legacy driver
+
+```shell
+$ composer require altmetric/mongo-session-handler:1.0.0
 ```
 
 ## Usage
@@ -20,6 +28,8 @@ use Altmetric\MongoSessionHandler;
 
 $sessions = $mongoClient->someDB->sessions;
 $logger = new Logger;
+// Uncomment to disable logging session data to PHP error log.
+// $logger->pushHandler(new \Monolog\Handler\NullHandler());
 $handler = new MongoSessionHandler($sessions, $logger);
 
 session_set_save_handler($handler);
