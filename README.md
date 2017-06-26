@@ -17,12 +17,10 @@ $ composer require altmetric/mongo-session-handler:^2.0
 
 ```php
 <?php
-use Monolog\Logger; // or any other PSR-3 compliant logger
 use Altmetric\MongoSessionHandler;
 
 $sessions = $mongoClient->someDB->sessions;
-$logger = new Logger;
-$handler = new MongoSessionHandler($sessions, $logger);
+$handler = new MongoSessionHandler($sessions);
 
 session_set_save_handler($handler);
 session_set_cookie_params(0, '/', '.example.com', false, true);
@@ -32,18 +30,20 @@ session_start();
 
 ## API Documentation
 
-### `public MongoSessionHandler::__construct(MongoDB\Collection $collection, Psr\Log\LoggerInterface $logger)`
+### `public MongoSessionHandler::__construct(MongoDB\Collection $collection[, Psr\Log\LoggerInterface $logger])`
 
 ```php
-$handler = new \Altmetric\MongoSessionHandler($client->db->sessions, $logger);
-session_set_save_handler($handler, true);
+$handler = new \Altmetric\MongoSessionHandler($client->db->sessions);
+session_set_save_handler($handler);
 session_start();
+
+$handler = new \Altmetric\MongoSessionHandler($client->db->sessions, $logger);
 ```
 
 Instantiate a new MongoDB session handler with the following arguments:
 
 * `$collection`: a [`MongoDB\Collection`](http://mongodb.github.io/mongo-php-library/classes/collection/) collection to use for session storage;
-* `$logger`: [`Psr\Log\LoggerInterface`](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)-compliant logger.
+* `$logger`: an optional [`Psr\Log\LoggerInterface`](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)-compliant logger.
 
 This handler implements the [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) meaning that it can be registered as a session handler with [`session_set_save_handler`](http://php.net/manual/en/function.session-set-save-handler.php).
 

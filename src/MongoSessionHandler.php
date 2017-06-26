@@ -6,16 +6,22 @@ use MongoDB\BSON\Binary;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Driver\Exception\Exception as MongoDBException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class MongoSessionHandler implements \SessionHandlerInterface
 {
     private $collection;
     private $logger;
 
-    public function __construct(Collection $collection, LoggerInterface $logger)
+    public function __construct(Collection $collection, LoggerInterface $logger = null)
     {
         $this->collection = $collection;
-        $this->logger = $logger;
+
+        if ($logger === null) {
+            $this->logger = new NullLogger();
+        } else {
+            $this->logger = $logger;
+        }
     }
 
     public function open($_save_path, $_name)
