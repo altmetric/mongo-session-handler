@@ -2,10 +2,12 @@
 
 A PHP session handler backed by MongoDB.
 
+_**Note:** This package depends on the [legacy MongoDB driver](http://php.net/manual/en/book.mongo.php) (`mongo`). If you need to use the [newer MongoDB driver](http://php.net/manual/en/set.mongodb.php) (`mongodb`) and its companion [PHP library](https://docs.mongodb.com/php-library/master/), please see [version 2.0](https://github.com/altmetric/mongo-session-handler/tree/2.x)._
+
 ## Installation
 
 ```shell
-$ composer require altmetric/mongo-session-handler
+$ composer require altmetric/mongo-session-handler:^1.0
 ```
 
 ## Usage
@@ -57,6 +59,6 @@ session as it is not locked during reads and writes:
 
 ## License
 
-Copyright © 2015 Altmetric LLP
+Copyright © 2015-2017 Altmetric LLP
 
 Distributed under the MIT License.
