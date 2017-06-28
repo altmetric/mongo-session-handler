@@ -2,7 +2,7 @@
 
 A PHP session handler backed by MongoDB.
 
-**Current version:** 2.0.0  
+**Current version:** 2.1.0  
 **Supported PHP versions:** 5.4, 5.5, 5.6, 7
 
 _**Note:** This package depends on the [MongoDB PHP driver](http://php.net/manual/en/set.mongodb.php) extension (`mongodb`) and its companion [PHP library](https://docs.mongodb.com/php-library/master/). If you need to use the older, [legacy driver](http://php.net/manual/en/book.mongo.php) (`mongo`), please see [version 1.0](https://github.com/altmetric/mongo-session-handler/tree/1.x)._
@@ -10,7 +10,7 @@ _**Note:** This package depends on the [MongoDB PHP driver](http://php.net/manua
 ## Installation
 
 ```shell
-$ composer require altmetric/mongo-session-handler:^2.0
+$ composer require altmetric/mongo-session-handler:^2.1
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ $handler = new \Altmetric\MongoSessionHandler($client->db->sessions, $logger);
 Instantiate a new MongoDB session handler with the following arguments:
 
 * `$collection`: a [`MongoDB\Collection`](http://mongodb.github.io/mongo-php-library/classes/collection/) collection to use for session storage;
-* `$logger`: an optional [`Psr\Log\LoggerInterface`](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)-compliant logger.
+* `$logger`: an optional [PSR-3](http://www.php-fig.org/psr/psr-3/)-compliant logger.
 
 This handler implements the [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) meaning that it can be registered as a session handler with [`session_set_save_handler`](http://php.net/manual/en/function.session-set-save-handler.php).
 
@@ -76,6 +76,8 @@ session as it is not locked during reads and writes:
   `php-mongo-session`](https://github.com/nicktacular/php-mongo-session)
   served as a valuable existing implementation of MongoDB-backed sessions in
   PHP.
+* Thanks to [Josh Ribakoff](https://github.com/joshribakoff) for suggesting
+  that the logger should be optional.
 
 ## License
 
