@@ -1,3 +1,7 @@
+# THIS PROJECT IS DEPRECATED
+
+mongo-session-handler is not maintained anymore.
+
 # Mongo Session Handler [![Build Status](https://travis-ci.org/altmetric/mongo-session-handler.svg?branch=master)](https://travis-ci.org/altmetric/mongo-session-handler)
 
 A PHP session handler backed by MongoDB.
